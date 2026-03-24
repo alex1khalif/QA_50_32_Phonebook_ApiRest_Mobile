@@ -14,10 +14,10 @@ public class TestBase {
         driver = AppiumConfig.createAppiumDriver("pixel.properties");
     }
 
-    @Test
-    public void start(){
+   // @Test
+   // public void start(){
 
-    }
+   // }
 
     @AfterMethod(enabled = false)
     public void tearDown(){
