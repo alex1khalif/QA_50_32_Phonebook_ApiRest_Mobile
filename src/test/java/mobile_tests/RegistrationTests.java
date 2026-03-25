@@ -1,14 +1,18 @@
 package mobile_tests;
 
 import dto.User;
+import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.WebDriverException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import screens.ContactListScreen;
-import screens.ErrorScreen;
-import screens.LoginRegistrationScreen;
-import screens.SplashScreen;
+import screens.*;
+
+import java.util.Map;
+
 import static utils.UserFactory.*;
+import static screens.MenuScreen.*;
+
 
 public class RegistrationTests extends TestBase{
 
@@ -40,5 +44,38 @@ public class RegistrationTests extends TestBase{
                 .validateTextInError("{username=must not be blank}", 5));
 
     }
+
+    @Test
+    public void registrationNegative_emptyPasswordTest(){
+        User user = positiveUser();
+        user.setPassword("");
+        loginRegistrationScreen.typeLoginRegistrationForm(user);
+        loginRegistrationScreen.clickBtnRegistration();
+        Assert.assertTrue(new MenuScreen(driver).appPhoneBookIsPresentInTelephoneMenu());
+
+    }
+
+    @Test
+    public void registrationNegative_OnlyDigitsPasswordTest(){
+        User user = positiveUser();
+        user.setPassword("1234567890");
+        loginRegistrationScreen.typeLoginRegistrationForm(user);
+        loginRegistrationScreen.clickBtnRegistration();
+        Assert.assertTrue(new ErrorScreen(driver)
+                .validateTextInError("{password= At least 8 characters; Must contain at least 1 uppercase", 5));
+
+    }
+
+    @Test
+    public void registrationNegative_WrongFormed_EmailTest(){
+        User user = positiveUser();
+        user.setUsername("alex1999gmail.com");
+        loginRegistrationScreen.typeLoginRegistrationForm(user);
+        loginRegistrationScreen.clickBtnRegistration();
+        Assert.assertTrue(new ErrorScreen(driver)
+                .validateTextInError("{username=must be a well-formed email address}", 5));
+
+    }
+
 
 }

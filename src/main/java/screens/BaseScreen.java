@@ -24,7 +24,13 @@ public class BaseScreen {
                 .until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 
-    public void pause(int time){
-
+    public static void pause(int time)
+    {
+        try {
+            Thread.sleep(time * 1000l);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

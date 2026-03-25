@@ -25,4 +25,6 @@ public class AppiumConfig {
                     getProperty(fileName, "appiumURL"), e);
         }
     }
+
+
 }
