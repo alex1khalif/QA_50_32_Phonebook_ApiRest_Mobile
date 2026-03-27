@@ -33,4 +33,9 @@ public class BaseScreen {
         }
     }
 
+    public boolean isElementPresent(WebElement element, int time){
+        return new WebDriverWait(driver, Duration.ofSeconds(time))
+                .until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+    }
+
 }

@@ -12,7 +12,22 @@ public class ErrorScreen extends BaseScreen{
     @AndroidFindBy(id = "android:id/message")
     WebElement textError;
 
+    @AndroidFindBy(id = "android:id/aerr_restart")
+    WebElement crashScreenBtn;
+
+    @AndroidFindBy(id ="android:id/title_template")
+    WebElement appStop;
+
     public boolean validateTextInError(String text, int time){
         return isTextInElementPresent(textError, text, time);
     }
+
+    public boolean validateTextInCrashScreen(String text, int time){
+        return isTextInElementPresent(crashScreenBtn, text, time);
+    }
+
+    public boolean isAppStopDisplayed(){
+        return isElementPresent(appStop, 5);
+    }
+
 }

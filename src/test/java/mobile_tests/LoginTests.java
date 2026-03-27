@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import screens.ContactListScreen;
+import screens.ErrorScreen;
 import screens.LoginRegistrationScreen;
 import screens.SplashScreen;
 
@@ -16,7 +17,7 @@ public class LoginTests extends TestBase{
 
     @BeforeMethod
     public void openAuthScreen(){
-        new SplashScreen(driver);
+       // new SplashScreen(driver);
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
     }
 
@@ -26,6 +27,22 @@ public class LoginTests extends TestBase{
                getProperty("base.properties", "password"));
         loginRegistrationScreen.typeLoginRegistrationForm(user);
         loginRegistrationScreen.clickBtnLogin();
-        Assert.assertTrue(new ContactListScreen(driver).isElementContactListIsPresent());
+       // Assert.assertTrue(new ContactListScreen(driver).isElementContactListIsPresent());
+        Assert.assertTrue(new ContactListScreen(driver).isBtnPlusPresent());
+    }
+
+    @Test
+    public void loginNegativeTest(){
+        User user = new User("",
+                getProperty("base.properties", "password"));
+        loginRegistrationScreen.typeLoginRegistrationForm(user);
+        loginRegistrationScreen.clickBtnLogin();
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("Login or Password incorrect", 5));
+    }
+
+    @Test
+    public void loginNegative_EmptyFields_Test(){
+        loginRegistrationScreen.clickBtnLogin();
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("Login or Password incorrect", 5));
     }
 }
