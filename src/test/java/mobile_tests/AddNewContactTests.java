@@ -77,4 +77,22 @@ public class AddNewContactTests extends TestBase{
         Assert.assertTrue(new ErrorScreen(driver).validateTextInError("address=must not be blank", 5));
 
     }
+
+    @Test
+    public void addNewContactNegative_EmptyAllTest(){
+        addNewContactScreen.clickBtnCreate();
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("lastName=must not be blank, " +
+                "address=must not be blank," +
+                " phone=Phone number must contain only digits!" +
+                " And length min 10, max 15!, name=must not be blank", 5));
+    }
+
+    @Test
+    public void addNewContactNegative_WrongPhoneOnlyLettersTest(){
+        Contact contact = positiveContact();
+        contact.setPhone("PhonePhonePho");
+        addNewContactScreen.typeContactForm(contact);
+        addNewContactScreen.clickBtnCreate();
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("min 10, max 15!", 5));
+    }
 }
